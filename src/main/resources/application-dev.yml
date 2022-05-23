@@ -1,18 +1,18 @@
 spring:
   datasource:
-    url: jdbc:postgresql://172.24.14.110:5432/db04?currentSchema=visa
-    username: visa
-    password: visa-visa
+    url: jdbc:postgresql://172.24.14.110:5432/db04?currentSchema=citizenship
+    username: cit
+    password: cit-cit
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 1
+      maximum-pool-size: 10
 
 logging:
   level:
     ru.antonov.bdid2.mapper: debug
     org:
-#      springframework: debug
+      springframework: debug
       apache.ibatis: info
       org.mybatis: info
     com:

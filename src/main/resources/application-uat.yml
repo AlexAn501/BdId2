@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://172.25.16.197:5432/db04?currentSchema=citizenship
+    username: cit
+    password: cit-cit
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+logging:
+  level:
+    ru.antonov.bdid2.mapper: debug
+    org:
+      springframework: debug
+      apache.ibatis: info
+      org.mybatis: info
+    com:
+      zaxxer:
+      #        hikari: debug
+

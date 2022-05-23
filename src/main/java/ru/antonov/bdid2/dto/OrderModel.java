@@ -2,54 +2,49 @@ package ru.antonov.bdid2.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
-public class Order {
-    /**
-     * Регион
-     */
-    private Long regionId;
+public class OrderModel {
+    private String regionId;
 
     /**
      * Тип дела
      */
-    private Long caseTypeId;
+    private String caseTypeId;
 
     /**
      * Основание приема заявления
      */
-    private Long applicationBasisId;
+    private String applicationBasisId;
 
 
     private String lastName;
     private String firstname;
     private String middleName;
-    private Long genderId;
+    private String genderId;
 
     /**
      * Страна рождения
      */
-    private Long birthCountryId;
-    private LocalDate birthDate;
+    private String birthCountryId;
+    private String birthDate;
 
     /**
      * Гражданство из документа заявителя
      */
-    private Long citizenshipId;
+    private String citizenshipId;
 
     /**
      * Решение по делу
      */
-    private Long decisionTypeId;
+    private String decisionTypeId;
 
     /**
      * Основание решения
      */
-    private Long basisId;
+    private String basisId;
 
     /**
      * Дата принятия решения
      */
-    private LocalDate decisionDate;
+    private String decisionDate;
 }

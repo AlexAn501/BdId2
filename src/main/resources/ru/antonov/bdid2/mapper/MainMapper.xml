@@ -4,7 +4,7 @@
     <resultMap id="Order" type="ru.antonov.bdid2.dto.Order" autoMapping="false">
         <result column="region_id" property="regionId"/>
         <result column="case_type_id" property="caseTypeId"/>
-        <result column="application_basis_id" property="applicationBasis_id"/>
+        <result column="application_basis_id" property="applicationBasisId"/>
         <result column="last_name" property="lastName"/>
         <result column="first_name" property="firstname"/>
         <result column="middle_name" property="middleName"/>
@@ -12,6 +12,9 @@
         <result column="birth_country_id" property="birthCountryId"/>
         <result column="birthday_dt" property="birthDate"/>
         <result column="citizenship_id" property="citizenshipId"/>
+        <result column="decision_type_id" property="decisionTypeId"/>
+        <result column="basis_id" property="basisId"/>
+        <result column="decision_date" property="decisionDate"/>
     </resultMap>
 
     <select id="getAllOrder" resultType="ru.antonov.bdid2.dto.Order" resultMap="Order">
@@ -24,11 +27,16 @@
                cpd.gender_id,
                cpd.birth_country_id,
                cpd.birthday_dt,
-               cpd.citizenship_id
+               cpd.citizenship_id,
+               cd.decision_type_id,
+               cd.basis_id,
+               cd.decision_date
         from core_case cc
                  join cit_case c on cc.core_case_id = c.id
                  join core_person_document cpd on cc.person_document_id = cpd.core_person_document_id
                  join cit_decision cd on c.id = cd.id
-        where case_type_id in (2395184769408177580, 2395184770775520685, 2395184775204705712, 2395184656950498693, 2395184658426893702, 2395184773468263855, 2606582240796218473, 2780798605949146741, 2395184772126086574);
+        where case_type_id in
+              (2395184769408177580, 2395184770775520685, 2395184775204705712, 2395184656950498693, 2395184658426893702,
+               2395184773468263855, 2606582240796218473, 2780798605949146741, 2395184772126086574);
     </select>
 </mapper>

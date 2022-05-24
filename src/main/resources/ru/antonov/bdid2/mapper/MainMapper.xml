@@ -35,10 +35,13 @@
                  join cit_case c on cc.core_case_id = c.id
                  join core_person_document cpd on cc.person_document_id = cpd.core_person_document_id
                  join cit_decision cd on c.id = cd.id
-        where case_type_id in
+                 left join cit_child cc2 on c.id = cc2.case_id
+        where decision_type_id = 2400084221096892019
+          and case_type_id in
               (2395184769408177580, 2395184770775520685, 2395184775204705712, 2395184656950498693, 2395184658426893702,
                2395184773468263855, 2606582240796218473, 2780798605949146741, 2395184772126086574)
           and cc.invalid_id = 0
           and cc.action_ind != 'D'
+        order by region_id, cd.decision_date
     </select>
 </mapper>

@@ -1,4 +1,4 @@
-package ru.antonov.bdid2.service.csvService;
+package ru.antonov.bdid2.util.csvUtils;
 
 import lombok.SneakyThrows;
 import ru.antonov.bdid2.dto.OrderModel;
@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 
-public class CsvCreatorInFile extends AbstractCsvCreator {
+public class CsvCreatorInFileUtil extends AbstractCsvCreatorUtil {
 
     public static File createCsv(List<OrderModel> orderModels) {
         byte[] orderForCsv = createByteArrayForCsvFormat(orderModels);

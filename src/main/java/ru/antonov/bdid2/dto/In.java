@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class In {
-    String path;
+    String pathToCsv;
 }

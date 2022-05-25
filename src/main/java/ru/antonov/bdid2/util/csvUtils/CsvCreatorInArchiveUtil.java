@@ -1,4 +1,4 @@
-package ru.antonov.bdid2.service.csvService;
+package ru.antonov.bdid2.util.csvUtils;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Slf4j
-public class CsvCreatorInArchive extends AbstractCsvCreator {
+public class CsvCreatorInArchiveUtil extends AbstractCsvCreatorUtil {
 
     public static File createCsvArchive(Map<String, List<OrderModel>> orderModelsMap) {
         Map<String, byte[]> bytesOrderFromCsv = new HashMap<>();

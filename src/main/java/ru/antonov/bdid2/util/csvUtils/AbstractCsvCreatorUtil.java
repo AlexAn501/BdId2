@@ -1,4 +1,4 @@
-package ru.antonov.bdid2.service.csvService;
+package ru.antonov.bdid2.util.csvUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -9,7 +9,7 @@ import ru.antonov.bdid2.dto.OrderModel;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class AbstractCsvCreator {
+public class AbstractCsvCreatorUtil {
 
     protected static byte[] createByteArrayForCsvFormat(List<OrderModel> orderModels) {
         CsvMapper csvMapper = new CsvMapper();

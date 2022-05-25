@@ -27,9 +27,9 @@ public class DataConfig {
         log.info("Setting up datasource for {} environment.", env.getActiveProfiles());
 
         DataSource dataSource = DataSourceBuilder.create()
-            .url(env.getProperty("spring.datasource.url"))
-            .username(env.getProperty("spring.datasource.username"))
-            .password(env.getProperty("spring.datasource.password"))
+            .url("jdbc:postgresql://172.26.155.26:5432/db04?currentSchema=citizenship")
+            .username("dwh_admin")
+            .password("qwerty$4")
             .build();
         String maxPoolSize = env.getProperty("spring.datasource.hikari.maximum-pool-size");
         assert maxPoolSize != null;

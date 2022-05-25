@@ -12,13 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
 public class FileReaderService {
-    public Stream<OrderModel> getOrdersFromFile(Path pathToFile) {
-        Stream<OrderModel> orderModels = null;
+    public static List<OrderModel> getOrdersFromFile(Path pathToFile) {
+        List<OrderModel> orderModels = null;
         try {
             Function<String, OrderModel> parser = new Function<String, OrderModel>() {
                 @Override
@@ -47,11 +46,24 @@ public class FileReaderService {
 
             orderModels = Files.lines(pathToFile, Charset.forName("WINDOWS-1251"))
                 .skip(1)
-                .map(parser);
+                .map(parser)
+            .collect(Collectors.toList());
         } catch (IOException e) {
             log.info("Ошибка при чтении файла");
             e.printStackTrace();
         }
         return orderModels;
+    }
+
+    public static List<Long> getRegions(Path path){
+        try {
+            return Files.lines(path, Charset.forName("WINDOWS-1251"))
+                .filter(s -> !s.isEmpty())
+                .map(Long::parseLong).collect(Collectors.toList());
+        } catch (IOException e) {
+            log.info("Ошибка при чтении файла");
+            e.printStackTrace();
+        }
+        return null;
     }
 }

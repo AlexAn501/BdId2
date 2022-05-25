@@ -4,6 +4,7 @@ import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.antonov.bdid2.dto.In;
 import ru.antonov.bdid2.dto.Order;
 import ru.antonov.bdid2.dto.OrderModel;
 import ru.antonov.bdid2.mapper.MainMapper;
@@ -16,21 +17,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class FirstService {
 
-    private final FileReaderService reader;
     private final MainMapper mapper;
     private final NSIFeignClient nsi;
 
-    public void executeFromFile(){
+    public String executeFromBdByRegion(In pathToRegion) {
+        String pathRegions = pathToRegion.getPath();
+        List<Long> regions = FileReaderService.getRegions(Paths.get(pathRegions));
+
+        List<OrderModel> orders = Objects.requireNonNull(regions).parallelStream()
+            .map(mapper::getAllOrderByRegion)
+            .map(this::parseOrderListToOrderModel)
+            .flatMap(List::stream).collect(Collectors.toList());
+
+        Map<String, List<OrderModel>> stringListMap = splitByRegion(orders);
+        File csvArchive = CsvCreatorInArchive.createCsvArchive(stringListMap);
+        return csvArchive.getAbsolutePath();
+    }
+
+    public void executeFromFile() {
         String path = "/home/alexey/Рабочий стол/г. Санкт-Петербург.csv";
 
-        Stream<OrderModel> ordersFromFile = reader.getOrdersFromFile(Paths.get(path));
+        List<OrderModel> ordersFromFile = FileReaderService.getOrdersFromFile(Paths.get(path));
         Map<String, List<OrderModel>> stringListMap = splitByRegion(ordersFromFile);
         File csvArchive = CsvCreatorInArchive.createCsvArchive(stringListMap);
     }
@@ -39,18 +52,20 @@ public class FirstService {
         List<Order> orders = mapper.getAllOrderV2();
         log.info(String.format("Запрос выполнен %s", orders.size()));
 
-        Stream<OrderModel> orderModels = parseToOrderModel(orders);
+        List<OrderModel> orderModels = parseOrderListToOrderModel(orders);
         Map<String, List<OrderModel>> stringListMap = splitByRegion(orderModels);
 
         File archive = CsvCreatorInArchive.createCsvArchive(stringListMap);
     }
 
-    private Map<String, List<OrderModel>> splitByRegion(Stream<OrderModel> orderModels) {
-        return orderModels.filter(Objects::nonNull).parallel().collect(Collectors.groupingBy(OrderModel::getRegionId));
+    private Map<String, List<OrderModel>> splitByRegion(List<OrderModel> orderModels) {
+        return orderModels.stream().filter(Objects::nonNull).parallel().collect(Collectors.groupingBy(OrderModel::getRegionId));
     }
 
-    private Stream<OrderModel> parseToOrderModel(List<Order> orders) {
-        return orders.parallelStream().map(order -> {
+    private List<OrderModel> parseOrderListToOrderModel(List<Order> orders) {
+        return orders.parallelStream()
+            .filter(Objects::nonNull)
+            .map(order -> {
             OrderModel build = null;
             try {
                 build = OrderModel.builder()
@@ -73,7 +88,7 @@ public class FirstService {
                 log.info(String.format("битый сКУА МОДЭЛ %s", order));
             }
             return build;
-        });
+        }).collect(Collectors.toList());
     }
 
     private String getNameOrEmptyString(Long id) {

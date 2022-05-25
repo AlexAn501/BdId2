@@ -13,6 +13,6 @@ public class Controller {
 
     @GetMapping("/start")
     public void start(){
-       firstService.execute();
+       firstService.executeFromFile();
     }
 }

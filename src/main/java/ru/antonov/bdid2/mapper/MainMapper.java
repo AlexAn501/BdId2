@@ -9,4 +9,6 @@ import java.util.List;
 public interface MainMapper {
 
     List<Order> getAllOrder();
+
+    List<Order> getAllOrderV2();
 }

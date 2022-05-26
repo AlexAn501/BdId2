@@ -1,17 +1,25 @@
 package ru.antonov.bdid2.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.antonov.bdid2.dto.OrderModel;
+import ru.antonov.bdid2.service.ArchiveCreatorService;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -66,5 +74,51 @@ public class SplitUtils {
             .filter(Objects::nonNull)
             .parallel()
             .collect(Collectors.groupingBy(OrderModel::getRegionId));
+    }
+
+    public static Map<String, byte[]> splitByRegionBytes(List<OrderModel> orderModels) {
+        return replaceListWithBytes(orderModels.stream()
+            .filter(Objects::nonNull)
+            .parallel()
+            .collect(Collectors.groupingBy(OrderModel::getRegionId)));
+    }
+
+    public static Map<String, byte[]> replaceListWithBytes(Map<String, List<OrderModel>> orderModelsMap) {
+        Map<String, byte[]> bytesOrderFromCsv = new HashMap<>();
+
+        for (Map.Entry<String, List<OrderModel>> pair : orderModelsMap.entrySet()) {
+            Boolean isWithHeaders = checkHeader(pair.getKey());
+            byte[] byteArrayForCsvFormat = createByteArrayForCsvFormat(pair.getValue(), isWithHeaders);
+            bytesOrderFromCsv.put(pair.getKey(), byteArrayForCsvFormat);
+        }
+        return bytesOrderFromCsv;
+    }
+
+    private static Boolean checkHeader(String name) {
+        Path path = Paths.get(ArchiveCreatorService.PATH_TO_DIRECTORY + File.separator + name + ".csv");
+        return !Files.isRegularFile(path);
+    }
+
+    public static byte[] createByteArrayForCsvFormat(List<OrderModel> orderModels, Boolean isWithHeader) {
+        CsvMapper csvMapper = new CsvMapper();
+        csvMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+        CsvSchema schema = null;
+
+        if(isWithHeader) {
+            schema = csvMapper.schemaFor(OrderModel.class)
+                .withHeader()
+                .withColumnSeparator(';');
+        }else {
+            schema = csvMapper.schemaFor(OrderModel.class)
+                .withColumnSeparator(';');
+        }
+
+        try {
+            String res = csvMapper.writer(schema).writeValueAsString(orderModels);
+            return res.getBytes("Windows-1251");
+        } catch (JsonProcessingException | UnsupportedEncodingException e) {
+            throw new RuntimeException(
+                String.format("Ошибка при выгрузке данных %s:%s", e.getClass().getSimpleName(), e.getMessage()));
+        }
     }
 }

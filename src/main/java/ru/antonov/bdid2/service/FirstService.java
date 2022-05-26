@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,7 @@ public class FirstService {
 
     private final MainMapper mapper;
     private final NSIFeignClient nsi;
+    public static List<Order> hutsOrders = new CopyOnWriteArrayList<>();
 //
 //    public String executeFromBdByRegion(In pathToRegion) {
 //        String pathRegions = pathToRegion.getPathRegion();
@@ -60,9 +62,10 @@ public class FirstService {
         File archive = CsvCreatorInArchiveUtil.createCsvArchive(stringListMap);
     }
 
-    private List<OrderModel> parseOrderListToOrderModelList(List<Order> orders) {
-        return orders.parallelStream()
+    public List<OrderModel> parseOrderListToOrderModelList(List<Order> orders) {
+        return orders.stream()
             .filter(Objects::nonNull)
+            .parallel()
             .map(order -> {
                 OrderModel build = null;
                 try {
@@ -83,7 +86,8 @@ public class FirstService {
                         .decisionDate(String.valueOf(order.getDecisionDate()))
                         .build();
                 } catch (FeignException e) {
-                    log.info(String.format("битый сКУА МОДЭЛ %s", order));
+                    log.info(String.format("битый сУКА МОДЭЛ %s", order));
+                    hutsOrders.add(order);
                 }
                 return build;
             }).collect(Collectors.toList());

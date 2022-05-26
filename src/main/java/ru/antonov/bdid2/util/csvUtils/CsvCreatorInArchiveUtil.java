@@ -30,7 +30,6 @@ public class CsvCreatorInArchiveUtil extends AbstractCsvCreatorUtil {
         return getCsvZipFile(bytesOrderFromCsv);
     }
 
-
     @SneakyThrows
     private static File getCsvZipFile(Map<String, byte[]> bytesOrderFromCsv) {
         Path tempFile = Files.createTempFile("archive", ".zip");
@@ -41,7 +40,7 @@ public class CsvCreatorInArchiveUtil extends AbstractCsvCreatorUtil {
 
             //записываем csv в архив
             for (Map.Entry<String, byte[]> pair : bytesOrderFromCsv.entrySet()) {
-                String csvZipEntryName = String.format(pair.getKey() + ".csv", LocalTime.now());
+                String csvZipEntryName = pair.getKey() + ".csv";
                 ZipEntry csvZipEntry = new ZipEntry(csvZipEntryName);
                 zos.putNextEntry(csvZipEntry);
                 zos.write(pair.getValue());

@@ -12,7 +12,7 @@ logging:
   level:
     ru.antonov.bdid2.mapper: debug
     org:
-      springframework: debug
+#      springframework: debug
       apache.ibatis: info
       org.mybatis: info
     com:

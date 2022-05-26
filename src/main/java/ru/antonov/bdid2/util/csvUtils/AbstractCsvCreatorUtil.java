@@ -18,6 +18,7 @@ public class AbstractCsvCreatorUtil {
         CsvSchema schema = csvMapper.schemaFor(OrderModel.class)
             .withHeader()
             .withColumnSeparator(';');
+
         try {
             String res = csvMapper.writer(schema).writeValueAsString(orderModels);
             return res.getBytes("Windows-1251");

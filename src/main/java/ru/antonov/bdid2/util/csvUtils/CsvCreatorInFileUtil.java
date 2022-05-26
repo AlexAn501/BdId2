@@ -32,5 +32,19 @@ public class CsvCreatorInFileUtil extends AbstractCsvCreatorUtil {
         }
         return file;
     }
+
+//    @SneakyThrows
+//    private static File getCsvFile(Path path) {
+//        Files.createFile()
+//        File file = tempFile.toFile();
+//
+//        try (BufferedOutputStream bfos = new BufferedOutputStream(new FileOutputStream(file))) {
+//            bfos.write(csvFileInBytes);
+//        } catch (IOException e) {
+//            throw new RuntimeException(
+//                String.format("Ошибка при выгрузке данных %s:%s", e.getClass().getSimpleName(), e.getMessage()));
+//        }
+//        return file;
+//    }
 }
 

@@ -94,6 +94,6 @@ public class FirstService {
     }
 
     private String getNameOrEmptyString(Long id) {
-        return (id == null || id == -1) ? "" : nsi.getCatalogRecordByRecordID(id).getName();
+        return (id == null || id == 0 || id == -1) ? "" : nsi.getCatalogRecordByRecordID(id).getName();
     }
 }

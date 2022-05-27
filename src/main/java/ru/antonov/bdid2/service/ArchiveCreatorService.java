@@ -8,10 +8,8 @@ import ru.antonov.bdid2.dto.Order;
 import ru.antonov.bdid2.dto.OrderModel;
 import ru.antonov.bdid2.util.SplitUtils;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -45,17 +44,17 @@ public class ArchiveCreatorService {
         List<Order> orders = getOrdersFromFile(path);
         List<OrderModel> orderModels = service.parseOrderListToOrderModelList(orders);
         orders = null;
-        String hutsAddress = createHutsFile();
+        String hutsAddress = createHutsFile(pathToCsvString);
         log.info("Адрес битых идишников " + hutsAddress);
-//       2022-05-26 19:06:45.182
 
         Map<String, byte[]> regionByteOrder = SplitUtils.splitByRegionBytes(orderModels);
 
         regionByteOrder.entrySet().parallelStream().forEach(entry -> createOrAddInFile(entry.getKey(), entry.getValue(), pathToArchive));
     }
 
-    private String createHutsFile(){
-        Path path = Paths.get(PATH_TO_HUTS_ORDER + File.separator + "huts.csv");
+    private String createHutsFile(String name){
+        String substring = name.substring(name.length() - 6, name.length() - 4);
+        Path path = Paths.get(PATH_TO_HUTS_ORDER + File.separator + "huts" + substring +".txt");
         try {
             if(Files.isRegularFile(path)){
                 FileWriter writer = new FileWriter(path.toFile(), true);
@@ -151,7 +150,7 @@ public class ArchiveCreatorService {
             return build;
         }catch (Exception e){
             log.info(String.format("Ошибка парсинга %s", fields));
-            throw new NumberFormatException();
+            throw new NumberFormatException(e.getMessage());
         }
     }
 

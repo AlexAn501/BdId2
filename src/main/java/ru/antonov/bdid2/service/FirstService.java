@@ -14,6 +14,7 @@ import ru.antonov.bdid2.util.ParserUtil;
 import ru.antonov.bdid2.util.SplitUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class FirstService {
 
     public String executeFromFile(In in) {
         String pathCsv = in.getPathToCsv();
-        List<OrderModel> ordersFromFile = ParserUtil.getOrdersFromFile(Paths.get(pathCsv));
+        List<OrderModel> ordersFromFile = ParserUtil.getOrdersFromFile(Paths.get(pathCsv), StandardCharsets.UTF_8);
         Map<String, List<OrderModel>> stringListMap = SplitUtils.splitByRegion(ordersFromFile);
         File csvArchive = CsvCreatorInArchiveUtil.createCsvArchive(stringListMap);
         return csvArchive.getAbsolutePath();

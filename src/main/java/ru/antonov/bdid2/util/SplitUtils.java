@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.antonov.bdid2.dto.OrderModel;
@@ -80,6 +81,7 @@ public class SplitUtils {
         return replaceListWithBytes(orderModels.stream()
             .filter(Objects::nonNull)
             .parallel()
+            .sorted()
             .collect(Collectors.groupingBy(OrderModel::getRegionId)));
     }
 
@@ -99,7 +101,7 @@ public class SplitUtils {
         return !Files.isRegularFile(path);
     }
 
-    public static byte[] createByteArrayForCsvFormat(List<OrderModel> orderModels, Boolean isWithHeader) {
+    public static byte[] createByteArrayForCsvFormat(List<OrderModel> orderModels,@NotNull Boolean isWithHeader) {
         CsvMapper csvMapper = new CsvMapper();
         csvMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
         CsvSchema schema = null;

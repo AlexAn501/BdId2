@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -36,6 +35,7 @@ public class ArchiveCreatorService {
     private FirstService service;
 
     public void execute(In in) {
+        log.info(String.format("%s принят в работу", in.getPathToCsv()));
         String pathToCsvString = in.getPathToCsv();
 
         Path path = Paths.get(pathToCsvString);
@@ -133,18 +133,18 @@ public class ArchiveCreatorService {
     private Order getOrderFromString(List<String> fields) {
         try {
             Order build = Order.builder()
-                .regionId(getIdOrEmptyString(fields.get(0)))
-                .caseTypeId(getIdOrEmptyString(fields.get(1)))
-                .applicationBasisId(getIdOrEmptyString(fields.get(2)))
+                .regionId(getIdOr0(fields.get(0)))
+                .caseTypeId(getIdOr0(fields.get(1)))
+                .applicationBasisId(getIdOr0(fields.get(2)))
                 .lastName(fields.get(3))
                 .firstname(fields.get(4))
                 .middleName(fields.get(5))
-                .genderId(getIdOrEmptyString(fields.get(6)))
-                .birthCountryId(getIdOrEmptyString(fields.get(7)))
+                .genderId(getIdOr0(fields.get(6)))
+                .birthCountryId(getIdOr0(fields.get(7)))
                 .birthDate(LocalDate.parse(String.valueOf(fields.get(8))))
-                .citizenshipId(getIdOrEmptyString(fields.get(9)))
-                .decisionTypeId(getIdOrEmptyString(fields.get(10)))
-                .basisId(getIdOrEmptyString(fields.get(11)))
+                .citizenshipId(getIdOr0(fields.get(9)))
+                .decisionTypeId(getIdOr0(fields.get(10)))
+                .basisId(getIdOr0(fields.get(11)))
                 .decisionDate(LocalDate.parse(String.valueOf(fields.get(12))))
                 .build();
             return build;
@@ -154,7 +154,7 @@ public class ArchiveCreatorService {
         }
     }
 
-    private Long getIdOrEmptyString(String id) {
+    private Long getIdOr0(String id) {
         try{
             return (id == null || id.isEmpty()) ? 0L : Long.parseLong(id);
         }catch (NumberFormatException e){

@@ -35,9 +35,9 @@ public class FileUtil {
         return null;
     }
 
-    public static List<String> getLinesFromCsvFile(Path pathToFile) {
+    public static List<String> getLinesFromCsvFile(Path pathToFile, Charset charset) {
         try {
-            return Files.lines(pathToFile, StandardCharsets.UTF_8)
+            return Files.lines(pathToFile, charset)
                 .skip(1)
                 .collect(Collectors.toList());
         } catch (IOException e) {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.antonov.bdid2.dto.In;
 import ru.antonov.bdid2.service.ArchiveCreatorService;
 import ru.antonov.bdid2.service.FirstService;
+import ru.antonov.bdid2.service.SortService;
 import ru.antonov.bdid2.util.SplitUtils;
 
 import java.nio.file.Paths;
@@ -17,9 +18,10 @@ public class Controller {
 
     private final FirstService firstService;
     private final ArchiveCreatorService archiveCreatorService;
+    private final SortService sort;
 
     @PostMapping("/start")
-    public String start(@RequestBody In in){
+    public String start(@RequestBody In in) {
         return firstService.executeFromFile(in);
     }
 
@@ -29,7 +31,12 @@ public class Controller {
     }
 
     @PostMapping("/archive")
-    public void createArchive(@RequestBody In in){
+    public void createArchive(@RequestBody In in) {
         archiveCreatorService.execute(in);
+    }
+
+    @PostMapping("/sort")
+    public void sortList(@RequestBody In in) {
+        sort.sort(in);
     }
 }

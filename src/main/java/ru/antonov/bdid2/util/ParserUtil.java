@@ -1,22 +1,24 @@
 package ru.antonov.bdid2.util;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.antonov.bdid2.dto.Order;
 import ru.antonov.bdid2.dto.OrderModel;
 
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class ParserUtil {
-    private static final String SPLITERATOR = ",";
+    private static final String SPLITERATOR = "(\",\")|(;)";
 
     private static final Function<String, OrderModel> PARSER_FROM_LINE_TO_ORDER_MODEL = new Function<String, OrderModel>() {
         @Override
         public OrderModel apply(String s) {
+//            s = s.replaceAll("\",,\"", "\",\" \",\"");
             List<String> fields = Arrays.stream(s.split(SPLITERATOR))
                 .map(f -> f.replaceAll("\"", ""))
                 .collect(Collectors.toList());
@@ -24,15 +26,19 @@ public class ParserUtil {
         }
     };
 
-    public static List<OrderModel> getOrdersFromFile(Path pathToFile) {
-        return FileUtil.getLinesFromCsvFile(pathToFile).stream()
-            .peek(s -> System.out.println("перед парсиногом " + s))
+    public static List<OrderModel> getOrdersFromFile(Path pathToFile, Charset charset) {
+        List<String> linesFromCsvFile = FileUtil.getLinesFromCsvFile(pathToFile, charset);
+        return linesFromCsvFile.stream()
+            .peek(s ->System.out.println("перед парсиногом " + s))
             .map(PARSER_FROM_LINE_TO_ORDER_MODEL)
             .peek((s -> System.out.println("после парсинга " + s)))
             .collect(Collectors.toList());
     }
 
     public static OrderModel parseToOrderModel(List<String> fields) {
+        if(fields.size() == 12){
+            fields.add(" ");
+        }
         return OrderModel.builder()
             .regionId(fields.get(0))
             .caseTypeId(fields.get(1))

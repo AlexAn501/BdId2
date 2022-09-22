@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:FpaDocumentsResponse xmlns="urn://mvd/gismu/FPA/1.0.0/common-data/1.0.0"
+                          xmlns:ns2="urn://mvd/gismu/FPA/EPGU/types/1.0.1"
+                          xmlns:ns3="urn://mvd/gismu/FPA/EPGU/1.0.1"
+                          xmlns:acd="urn://mvd/gismu/FPA/1.0.0/common-data/1.0.0"
+                          dateTime="2020-01-01T00:00:00.000+03:00">
+    <ns3:OrderId>123456789</ns3:OrderId>
+    <ns3:PassportIssueResponse>
+        <ns2:StatusCode>
+			<ns2:TechCode>1</ns2:TechCode>
+        </ns2:StatusCode>
+		<ns2:Comment>Заявление зарегистрировано</ns2:Comment>
+    </ns3:PassportIssueResponse>
+</ns3:FpaDocumentsResponse>

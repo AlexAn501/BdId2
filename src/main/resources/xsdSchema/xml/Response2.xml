@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:FpaDocumentsResponse xmlns="urn://mvd/gismu/FPA/1.0.0/common-data/1.0.0"
+                          xmlns:ns2="urn://mvd/gismu/FPA/EPGU/types/1.0.1"
+                          xmlns:ns3="urn://mvd/gismu/FPA/EPGU/1.0.1"
+                          dateTime="2020-01-01T00:00:00.000+03:00">
+	<ns3:OrderId>123456789</ns3:OrderId>
+	<ns3:TextMessageResponse>
+		<ns2:Result>SUCCESS</ns2:Result>
+	</ns3:TextMessageResponse>
+</ns3:FpaDocumentsResponse>

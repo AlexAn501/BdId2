@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:FpaDocumentsRequest xmlns="urn://mvd/gismu/FPA/EPGU/types/1.0.1" xmlns:ns2="urn://mvd/gismu/FPA/EPGU/1.0.1"
+                         dateTime="2020-01-01T00:00:00.000+03:00" xmlns:tns="urn://mvd/gismu/FPA/EPGU/types/1.0.1">
+    <ns2:OrderId>123456789</ns2:OrderId>
+    <ns2:PassportIssueRequest>
+
+        <Department>tns:String20Type</Department>
+        <ServiceCode></ServiceCode>
+        <TargetCode>
+            
+        </TargetCode>
+        <StatementDate></StatementDate>
+        <OKTMO></OKTMO>
+        <DepartmentCode></DepartmentCode>
+        <TypeOfRequestPlace></TypeOfRequestPlace>
+        <CategoryOfApplicant></CategoryOfApplicant>
+        <UserLogin></UserLogin>
+        <UnderagePerson>
+            <PersonData>
+                <Gender>М</Gender>
+                <BirthDate>
+                    <year>1993</year>
+                </BirthDate>
+                <BirthPlace>
+                    <CountryCyr></CountryCyr>
+                    <OriginalPlaceOfBirth></OriginalPlaceOfBirth>
+                </BirthPlace>
+                <Number></Number>
+                <IssueDate></IssueDate>
+                <DocumentIssuer></DocumentIssuer>
+            </PersonData>
+            <ReceiptMode></ReceiptMode>
+            <DoNotHaveAnotherForeignPassports></DoNotHaveAnotherForeignPassports>
+            <LegalRepresentative>
+                <PersonData>
+                    <Gender></Gender>
+                    <BirthDate>
+                        <year></year>
+                    </BirthDate>
+                    <OriginalPlaceOfBirth></OriginalPlaceOfBirth>
+                    <Number></Number>
+                    <IssueDate></IssueDate>
+                    <DocumentIssuer></DocumentIssuer>
+                </PersonData>
+                <ConfirmingDocument>
+                    <Number></Number>
+                    <IssueDate></IssueDate>
+                    <DocumentIssuer></DocumentIssuer>
+                </ConfirmingDocument>
+                <Address></Address>
+            </LegalRepresentative>
+            <PhotoId></PhotoId>
+            <Urgent></Urgent>
+            <PreferentialCategory></PreferentialCategory>
+        </UnderagePerson>
+    </ns2:PassportIssueRequest>
+</ns2:FpaDocumentsRequest>
+

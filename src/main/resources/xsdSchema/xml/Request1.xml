@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:FpaDocumentsRequest xmlns="urn://mvd/gismu/FPA/EPGU/types/1.0.1"
+                         xmlns:ns2="urn://mvd/gismu/FPA/EPGU/1.0.1"
+                         dateTime="2020-01-01T00:00:00.000+03:00">
+    <ns2:OrderId>123456789</ns2:OrderId>
+    <ns2:CancelRequest>
+        <Reason>Причина отмены</Reason>
+    </ns2:CancelRequest>
+</ns2:FpaDocumentsRequest>
